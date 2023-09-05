@@ -27,8 +27,8 @@ O servidor irá abrir em http://127.0.0.1:5000/
 
 
 Exemplo de Retorno da API:
+![API RESPONSE](https://github.com/hqrms/AgriCrawler/assets/78941789/747240e7-6b21-4d7f-ac3a-5a9456359fc5)
 
-![API RESPONSE](https://github.com/hqrms/AgriCrawler/assets/78941789/0b4b70c0-b2d8-4c1f-8838-f3d59441cd8f)
 
 
 Testes de Unidade:
