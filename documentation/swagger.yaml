@@ -1,0 +1,30 @@
+swagger: '2.0'
+info:
+  title: AgriCrawler
+  description: Documentação da API de coletas de dados relacionados à soja.
+  version: '1.0'
+host: 127.0.0.1:5000
+schemes:
+  - http
+paths:
+  /get_soja:
+    get:
+      summary: Obtém dados coletados do site Notícias Agrícolas.
+      description: Obtém todas as cotações e variações dos grãos de soja presentes no site.
+      responses:
+        '200':
+          description: Dados obtidos com sucesso.
+          schema:
+            type: object
+            properties:
+              'Descrições':
+                type: string
+              'Título':
+                type: string
+              'Valores':
+                type: string
+
+        '404':
+          description: Dados não encontrados.
+        '500':
+          description: Problema com o servidor interno do site provedor dos dados.

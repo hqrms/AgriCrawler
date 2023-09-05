@@ -13,21 +13,21 @@
     "/get_soja": {
       "get": {
         "summary": "Obtém dados coletados do site Notícias Agrícolas.",
-        "description": "Obtém todas as cotações e variações dos grãos de soja presentes no site de forma bruta.",
+        "description": "Obtém todas as cotações e variações dos grãos de soja presentes no site.",
         "responses": {
           "200": {
             "description": "Dados obtidos com sucesso.",
             "schema": {
               "type": "object",
               "properties": {
-                "0": {
-                  "type": "number"
+                "Descrições": {
+                  "type": "string"
                 },
-                "1": {
-                  "type": "number"
+                "Título": {
+                  "type": "string"
                 },
-                "2": {
-                  "type": "number"
+                "Valores": {
+                  "type": "string"
                 }
               }
             }
