@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request
-import requests
 from crawler import AgriCrawler
 import logging
 
@@ -19,6 +18,7 @@ def get_data():
     data = crawler.run()
 
     return jsonify(data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

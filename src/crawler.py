@@ -2,7 +2,6 @@ import json
 import requests
 from bs4 import BeautifulSoup
 import logging
-import crawler_test
 
 logging.basicConfig(
     level=logging.INFO,
@@ -37,7 +36,7 @@ class AgriCrawler():
         """
                 
         response = self.request_url()
-        processed_response = self.get_cotation_data_from_html(response)
+        processed_response = self.get_quotation_data_from_html(response)
         return processed_response
         
  
@@ -54,7 +53,7 @@ class AgriCrawler():
             return message
     
 
-    def get_cotation_data_from_html(self, html_page):
+    def get_quotation_data_from_html(self, html_page):
         """
         Realiza a iteração entre os componentes HTML da página e coleta
         todas as informações das divs com a classe "cotacao"
@@ -62,29 +61,43 @@ class AgriCrawler():
         Args:
             html_page : Página HTML (https://www.noticiasagricolas.com.br/cotacoes/soja). 
         """
-        cotation_data = []
+        quotation_data = []
         soup = BeautifulSoup(html_page.text, 'html.parser')
-        cotations = soup.find_all('div', class_='cotacao')
+        quotation_tables = soup.find_all('div', class_='cotacao')
 
+        index = 0
+        try:
+            for quotation_table in quotation_tables:
+                soybean_info = []
 
-        for cotation in cotations:
-            cotation_tables_titles = []
-            cotation_tables = cotation.find_all('table', class_='cot-fisicas')
+                table_title = quotation_table.find('a').text
+                table_title = table_title.strip().replace('\n', "")
+                soybean_table = quotation_table.find('table', class_='cot-fisicas')
+                table_head_text = soybean_table.find('thead').text
+                table_body = soybean_table.find('tbody')
+                table_rows = table_body.find('tr')
+                quotation_table_text = table_rows.text     
 
-            for table in cotation_tables:
-                table_bodies = table.find_all('tbody')
+                soybean_info.append(table_title)
+                soybean_info.append(table_head_text.strip().replace('\n', " - "))
+                soybean_info.append(quotation_table_text.strip().replace('\n', " - "))
 
-                for table_body in table_bodies:
-                    table_rows = table_body.find_all('tr')
+                soybean_dictionary = {
+                    "Titulo": soybean_info[0],
+                    "Descrições" :soybean_info[1],
+                    "Valores": soybean_info[2]
+                }
+                quotation_data.append(soybean_dictionary)
 
-                    for table_rows in table_rows:
-                        cotation_table_text = table_rows.text
-                        cotation_array = cotation_table_text.strip().split('\n')
-                        cotation_data.append(cotation_array)
+                index += 1
 
-        return cotation_data
+            print(quotation_data)
+            return quotation_data
+       
+        except Exception as e:
+            message = ("Falha na API [Erro: {status}]".format(status = e))
+            logging.error(message)
+            return ("Erro interno na API.", 500)
+
     
-
-
-
 
